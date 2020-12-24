@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>demo</name>
+        <name>SwaggerApiVersion</name>
     </assembly>
     <members>
         <member name="M:demo.Controllers.WeatherForecastController.GetV11(System.DateTime)">

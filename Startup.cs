@@ -46,7 +46,18 @@ namespace demo
             });
 
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
+            services.AddSwaggerGen(options =>
+            {
+                options.OperationFilter<SwaggerDefaultValues>();
+                //获取目录下的XML文件 显示注释等信息
+                var basePath1 = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录(平台)影响，建议采用此方法获取路径）
+                var xmlComments = Directory.GetFiles(basePath1, "*.xml", SearchOption.AllDirectories).ToList();
+
+                foreach (var xmlComment in xmlComments)
+                {
+                    options.IncludeXmlComments(xmlComment);
+                }
+            });
 
             //services.AddSwaggerGen(option =>
             //{
@@ -72,14 +83,7 @@ namespace demo
                 {
                     c.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                 }
-                ////获取目录下的XML文件 显示注释等信息
-                //var basePath1 = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);//获取应用程序所在目录（绝对，不受工作目录(平台)影响，建议采用此方法获取路径）
-                //var xmlComments = Directory.GetFiles(basePath1, "*.xml", SearchOption.AllDirectories).ToList();
 
-                //foreach (var xmlComment in xmlComments)
-                //{
-                //    c.(xmlComment);
-                //}
                 //c.SwaggerEndpoint("/swagger/v1/swagger.json", "Demo V1");
                 //c.SwaggerEndpoint("/swagger/v2/swagger.json", "Demo V2");
 
